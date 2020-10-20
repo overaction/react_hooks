@@ -1,39 +1,41 @@
-import React, {Component, useState} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, useState } from 'react';
 
-class App extends React.Component {
-    constructor(props) {
-      super(props);
-      console.log('constructor');
-    }
-    state = {
-      count: 0
-    };
-    add = () => {
-      this.setState(current => ({count: current.count + 1}))
-    };
-    remove = () => {
-      this.setState(current => ({count : current.count -1}));
-    };
-    componentDidMount() {
-      console.log('component rendered');
-    }
-    componentDidUpdate() {
-      console.log('i just updated');
-    }
-    componentWillUnmount() {
-      console.log('goodbye');
-    }
-    render() {
-      console.log('hello.. rendering');
-      return (
-        <div>
-          <h1>hello.. {this.state.count}</h1>
-          <button onClick={this.add}>add</button>
-          <button onClick={this.remove}>minus</button>
-        </div>
-      )
-    }
-} 
+function App() {
+  const [item, setItem] = useState(1);
+  const incrementItem = () => setItem(item+1);
+  const decrementItem = () => setItem(item-1);
+  return (
+    <div className="app">
+      <h1>Hello {item}</h1>
+      <h2>start react hooks</h2>
+      <button onClick={incrementItem}>Increment</button>
+      <button onClick={decrementItem}>Decrement</button>
+    </div>
+  )
+}
+
+class AppUgly extends React.Component {
+  state = {
+    item: 1
+  }
+  incrementItem = () => {
+    this.setState(current => ({item: current.item + 1}));
+  }
+  decrementItem = () => {
+    this.setState(current => ({item: current.item + -1}));
+  }
+
+  render() {
+    const {item} = this.state;
+    return (
+      <div className="app">
+        <h1>Hello {item}</h1>
+        <h2>start react hooks</h2>
+        <button onClick={this.incrementItem}>Increment</button>
+        <button onClick={this.decrementItem}>Decrement</button>
+      </div>
+    )
+  }
+}
 
 export default App;
