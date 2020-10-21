@@ -13,6 +13,9 @@ const content = [
 
 const useTabs = (array, index) => {
   const [currentIndex, setCurrentIndex] = useState(index);
+  if(!array || !Array.isArray(array)) {
+    return;
+  }
   return {
     currentContent: array[currentIndex],
     onchange: setCurrentIndex
@@ -25,7 +28,7 @@ const App = () => {
   return (
     <div>
       {content.map((item,index) => (
-      <button onClick={() => {onchange(index)}} key={index}>item.content</button>
+      <button onClick={() => {onchange(index)}} key={index}>{item.tab}</button>
       ))}
       <div>
         {currentContent.content}
