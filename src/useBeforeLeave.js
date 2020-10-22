@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-
-const useBeforeLeave = (onBefore) => {
+export const useBeforeLeave = (onBefore) => {
   const handle = (e) => {
     const { clientY } = e;
     if (clientY <= 0) {
@@ -14,11 +12,3 @@ const useBeforeLeave = (onBefore) => {
     }
   }, []);
 };
-
-const App = () => {
-  const begForLite = () => console.log("plz don't leave");
-  useBeforeLeave(begForLite);
-  return <div></div>;
-};
-
-export default App;
