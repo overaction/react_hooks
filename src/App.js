@@ -1,34 +1,38 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-const useNetwork = onChange => {
-  const [status, setStatus] = useState(navigator.onLine);
-  const handleChange = () => {
-    if(typeof(onChange) === 'function') {
-      onChange(navigator.onLine);
+const useFullScreen = (callback) => {
+  const element = useRef();
+  const triggerFull = () => {
+    if (element.current) {
+      element.current.requestFullscreen();
+      if (callback && typeof callback === 'function') {
+        callback(true);
+      }
     }
-    setStatus(navigator.onLine);
-  }
-  useEffect(() => {
-    window.addEventListener('online', handleChange);
-    window.addEventListener('offline', handleChange);
-    return () => {
-      window.removeEventListener("online", handleChange);
-      window.removeEventListener("offline", handleChange);
+  };
+  const exitFull = () => {
+    document.exitFullscreen();
+    if (callback && typeof callback === 'function') {
+      callback(false);
     }
-  },[]);
-  return status;
-}
+  };
+  return { element, triggerFull, exitFull };
+};
 
 const App = () => {
-  const handleNetworkChange = (online) => {
-    console.log(online? "We just online" : "We just offline");
-  }
-  const online = useNetwork(handleNetworkChange);
+  const onFullS = (isFull) => {
+    console.log(isFull ? 'We are full' : 'we are small');
+  };
+  const { element, triggerFull, exitFull } = useFullScreen(onFullS);
   return (
     <div>
-      <h1>{online ? "Online" : "Offline"}</h1>
+      <div ref={element}>
+        <img src={require('./2li.jpg')}></img>
+        <button onClick={exitFull}>Exit Screen</button>
+      </div>
+      <button onClick={triggerFull}>Make fullScreen</button>
     </div>
-  )
+  );
 };
 
 export default App;
